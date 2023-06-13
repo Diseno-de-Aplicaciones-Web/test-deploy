@@ -10,6 +10,14 @@ app.get("/",(peticion, resposta)=>{
     `)
 })
 
+app.get("/api/datos/",(peticion, resposta)=>{
+    resposta.json([
+        "Un dato",
+        "Outro dato",
+        "O último dato"
+    ])
+})
+
 app.listen(8000, ()=>{
     console.log("Backend funcionando...")
     console.log("NODE_ENV", process.env.NODE_ENV)
