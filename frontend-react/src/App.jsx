@@ -22,7 +22,7 @@ function App() {
       <h2>Datos do backend:</h2>
       {
         datos.length ?
-          datos.map( elemento => <p>{elemento}</p> )
+          datos.map( elemento => <p>{elemento.frase}</p> )
           :
           <p>Sin datos</p>
       }
