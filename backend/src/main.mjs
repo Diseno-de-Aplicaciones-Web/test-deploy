@@ -5,7 +5,6 @@ const app = express()
 app.use(cors())
 
 app.get("/",(_, resposta)=>{
-    resposta.header("Content-type", "text/html")
     resposta.send(`
         <h1>Funciona</h1>
         <p>NODE_ENV: ${process.env.NODE_ENV}</p>
