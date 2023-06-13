@@ -13,7 +13,7 @@ app.get("/",(_, resposta)=>{
     `)
 })
 
-app.post("/api/datos/", async (peticion, resposta)=>{
+app.post("/api/datos/", express.json(), async (peticion, resposta)=>{
     const novoDato = await Dato.create(peticion.body)
     resposta.json(novoDato)
 })
