@@ -2,7 +2,8 @@ import express from "express"
 
 const app = express()
 
-app.get("/",(peticion, resposta)=>{
+app.get("/",(_, resposta)=>{
+    resposta.header("Content-type", "text/html")
     resposta.send(`
         <h1>Funciona</h1>
         <p>NODE_ENV: ${process.env.NODE_ENV}</p>
@@ -10,7 +11,7 @@ app.get("/",(peticion, resposta)=>{
     `)
 })
 
-app.get("/api/datos/",(peticion, resposta)=>{
+app.get("/api/datos/",(_, resposta)=>{
     resposta.json([
         "Un dato",
         "Outro dato",
