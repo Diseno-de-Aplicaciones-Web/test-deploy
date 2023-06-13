@@ -1,5 +1,6 @@
 import express from "express"
 import cors from "cors"
+import { Dato } from "./db.mjs"
 
 const app = express()
 app.use(cors())
@@ -12,12 +13,14 @@ app.get("/",(_, resposta)=>{
     `)
 })
 
-app.get("/api/datos/",(_, resposta)=>{
-    resposta.json([
-        "Un dato",
-        "Outro dato",
-        "O último dato"
-    ])
+app.post("/api/datos/", async (peticion, resposta)=>{
+    const novoDato = await Dato.create(peticion.body)
+    resposta.json(novoDato)
+})
+
+app.get("/api/datos/", async (_, resposta)=>{
+    const datos = await Dato.findAll()
+    resposta.json(datos)
 })
 
 app.listen(process.env.PORT ?? 8000, ()=>{
