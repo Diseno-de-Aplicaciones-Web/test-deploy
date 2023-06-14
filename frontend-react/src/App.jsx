@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 function App() {
 
+  const htmlInput = useRef()
   const [datos, setDatos] = useState([])
 
   async function cargarDatosBackend() {
@@ -31,7 +32,7 @@ function App() {
       <p>Hostname: {window.location.hostname}</p>
       <p>Host: {window.location.host}</p>
       <h2>Datos do backend:</h2>
-      <input type="text" bind:this={htmlInput}/>
+      <input type="text" ref={htmlInput}/>
       <button on:click={gardarNoBackend}>📨</button>
       {
         datos.length ?
