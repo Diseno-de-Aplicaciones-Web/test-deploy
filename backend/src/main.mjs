@@ -5,6 +5,8 @@ import { Dato } from "./db.mjs"
 const app = express()
 app.use(cors())
 
+const SECRETO_JWT = process.env.SECRETO_JWT ?? "secreto de pega"
+
 app.get("/",(_, resposta)=>{
     resposta.send(`
         <h1>Funciona</h1>
