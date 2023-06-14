@@ -13,11 +13,11 @@ function App() {
   async function gardarNoBackend() {
     const resposta = await fetch("http://localhost:8000/api/datos/",{
       method: "POST", headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({frase: htmlInput.value})
+      body: JSON.stringify({frase: htmlInput.current.value})
     })
     if (resposta.ok) { 
       cargarDatosBackend()
-      htmlInput.value=""
+      htmlInput.current.value=""
     }
   }
 
