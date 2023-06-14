@@ -9,6 +9,17 @@ function App() {
     if (respuesta.ok) setDatos(await respuesta.json())
   }
 
+  async function gardarNoBackend() {
+    const resposta = await fetch("http://localhost:8000/api/datos/",{
+      method: "POST", headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({frase: htmlInput.value})
+    })
+    if (resposta.ok) { 
+      cargarDatosBackend()
+      htmlInput.value=""
+    }
+  }
+
   useEffect(
     () => {cargarDatosBackend()},
     []
@@ -20,6 +31,8 @@ function App() {
       <p>Hostname: {window.location.hostname}</p>
       <p>Host: {window.location.host}</p>
       <h2>Datos do backend:</h2>
+      <input type="text" bind:this={htmlInput}/>
+      <button on:click={gardarNoBackend}>📨</button>
       {
         datos.length ?
           datos.map( elemento => <p>{elemento.frase}</p> )

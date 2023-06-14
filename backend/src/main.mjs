@@ -5,8 +5,6 @@ import { Dato } from "./db.mjs"
 const app = express()
 app.use(cors())
 
-const SECRETO_JWT = process.env.SECRETO_JWT ?? "secreto de pega"
-
 app.get("/",(_, resposta)=>{
     resposta.send(`
         <h1>Funciona</h1>
@@ -25,7 +23,7 @@ app.get("/api/datos/", async (_, resposta)=>{
     resposta.json(datos)
 })
 
-app.listen(process.env.PORT ?? 8000, ()=>{
+app.listen(8000, ()=>{
     console.log("Backend funcionando...")
     console.log("NODE_ENV", process.env.NODE_ENV)
     console.log("PORT", process.env.PORT)
