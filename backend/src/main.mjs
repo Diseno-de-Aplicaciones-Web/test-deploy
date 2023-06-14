@@ -23,7 +23,7 @@ app.get("/api/datos/", async (_, resposta)=>{
     resposta.json(datos)
 })
 
-app.listen(8000, ()=>{
+app.listen(process.env.PORT ?? 8000, ()=>{
     console.log("Backend funcionando...")
     console.log("NODE_ENV", process.env.NODE_ENV)
     console.log("PORT", process.env.PORT)
