@@ -1,15 +1,17 @@
 <script>
 
+  import { backendUrl } from "./config.mjs"
+
   let datos = []
   let htmlInput
 
   async function cargarDatosBackend() {
-    const respuesta = await fetch("http://localhost:8000/api/datos/")
+    const respuesta = await fetch(backendUrl+"/api/datos/")
     if (respuesta.ok) datos = await respuesta.json()
   }
 
   async function gardarNoBackend() {
-    const resposta = await fetch("http://localhost:8000/api/datos/",{
+    const resposta = await fetch(backendUrl+"/api/datos/",{
       method: "POST", headers: { "Content-Type": "application/json"},
       body: JSON.stringify({frase: htmlInput.value})
     })
