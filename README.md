@@ -1,4 +1,4 @@
-# Adaptaciones no código para depregar en producción
+# Adaptaciones no código para despregar en producción
 
 ## Backend
 * Empregar `process.env.PORT` como primeira opción para o porto de escoita de Express e proporciona unha alternativa para o entorno de development.
