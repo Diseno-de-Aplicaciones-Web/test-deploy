@@ -21,4 +21,17 @@ const JWT_SECRET = process.env.JWT_SECRET
 ```
 
 ## Frontend
-* Proporcionar as URL para 
+* Proporciona as URL para o backend tanto para os entornos de desenrolo como de producción. Podes determinar se a aplicación se atopa en desenrolo ou en producción consultando `window.location.hostname`. En desenrolo adoita ser `localhost` ou `127.0.0.1`
+```js
+const BACKEND_URL = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+    ? "http://localhost:8000"
+    : "https://direccion.dobackend.eninternet.com"
+```
+Logo disto, modifica as chamadas a `fetch` ou calquera outra chamada á API do teu backend do seguinte xeito. Onde tiñas algo como:
+```js
+fetch("http://localhost:8000/api/artigos")
+```
+Modifícao dun xeito semellante a este:
+```js
+fetch(BACKEND_URL+"/api/artigos")
+```
