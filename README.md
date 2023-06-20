@@ -85,4 +85,34 @@ Logo, podes despregar o teu frontend creando un novo __Static Site__ en Render. 
 
 Selecciona a franxa de pago que prefiras (por omisión está marcada a gratuita) e busca o botón para crear o Web Service no pe da páxina. Cando o pulses empezará o proceso de construcción e desplegue do backend. Na parte superior da páxina poderás ver en qué dirección de internet estará dispoñible.
 
+As aplicacións que creamos con Svelte ou React adoitan ser SPA (Single Page Applications). Esto implica que, a pesar de que utilizan las rutas de la URL para mostrar diferentes vistas, la web que consituye la aplicación está alojada en una única ruta.
+
+Para que estas aplicaciones funcionen bien, hemos de configurar el servicio de la página web para que todas las rutas empleadas por las vistas sean dirigidas a la única ruta real de la aplicación. En Render puedes hacer esto configurando el static site con una _reescritura_ tal y como ves en la figura.
+
+![Configuración da redirección das rutas do frontend](./resources/redirection.png)
+
 Asegúrate de comprobar que todo funciona axeitadamente accedendo co navegador á URL proporcionada para o frontend.
+
+### CORS
+
+Os navegadores seguen unha política de restricción para que só o JavaScript que procede dunha dirección poda facer peticións (fetch) a esa dirección (_same-origin policy_). Dese xeito impídese que scripts de terceiros podan acceder á información do noso backend empregando as credenciais dos usuarios. Os scripts que poderían intentar estos accesos incluen anuncios de pasarelas, bibliotecas de JavaScript instadas desde CDN como Bootstrap ou Leaflet, pasarelas de pago, etc.
+
+No noso caso este comportamento do navegador supón un problema, porque a dirección de Internet do noso frontend, de donde proceden os scripts de JavaScript, non é a mesma que a dirección do backend, de xeito que o navegador non permitirá ós nosos scripts do frontend facer consultas no backend. Para solucionar esto dispoñemos de CORS, que é un mecanismo que permite que o noso backend indique ó navegador desde qué orixes permitimos facer consultas ó noso backend.
+
+Como nas adaptacións anteriores para o desplegue, necesitaremos definir dous escenarios para a nosa aplicación. En __desenrolo__ permitiremos o acceso para calquera tipo de petición desde calquera orixe. En __producción__ só permitiremos acceso ós scripts que proceden do dominio do noso frontend e, opcionalmente, só para os métodos HTTP que sexa necesario.
+
+```js
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN ?? "*",
+        methods: process.env.CORS_METHODS ?? "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+    })
+)
+```
+![Variables de entorno para CORS](./resources/CORS.png)
+
+__Presta atención ó asterisco despois da URL ☝️__
+
+Lembra que estamos empregando un middleware, así que ainda que no exemplo se aplica a mesma configuración de CORS para todos os endpoints, podemos alternativamente establecer políticas individuais para cada endpoint.

@@ -4,13 +4,14 @@ import { Dato } from "./db.mjs"
 
 const app = express()
 
-const CORS_OPTIONS = {
-    "origin": "https://frontend-lnw1.onrender.com/*",
-    "methods": "GET,POST",
-    "preflightContinue": false,
-    "optionsSuccessStatus": 204
-}
-app.use(cors(CORS_OPTIONS))
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN ?? "*",
+        methods: process.env.CORS_METHODS ?? "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+    })
+)
 
 app.get("/",(_, resposta)=>{
     resposta.send(`
