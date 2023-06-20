@@ -3,7 +3,7 @@ import cors from "cors"
 import { Dato } from "./db.mjs"
 
 const app = express()
-app.use(cors())
+app.use(cors("https://asd.asd/"))
 
 app.get("/",(_, resposta)=>{
     resposta.send(`
