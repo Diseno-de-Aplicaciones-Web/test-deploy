@@ -1,12 +1,18 @@
 # Adaptaciones no código para despregar en producción
 
-- [Adaptaciones no código para despregar en producción](#adaptaciones-no-código-para-despregar-en-producción)
-  - [Backend](#backend)
-  - [Frontend](#frontend)
-  - [Despregando en Render](#despregando-en-render)
-    - [Creando a nosa base de datos na nube.](#creando-a-nosa-base-de-datos-na-nube)
-    - [Despregando o backend](#despregando-o-backend)
-    - [Frontend](#frontend-1)
+<!-- TOC -->
+
+- [Adaptaciones no código para despregar en producción](#adaptaciones-no-c%C3%B3digo-para-despregar-en-producci%C3%B3n)
+    - [Backend](#backend)
+        - [CORS](#cors)
+    - [Frontend](#frontend)
+    - [Despregando en Render](#despregando-en-render)
+        - [Creando a nosa base de datos na nube.](#creando-a-nosa-base-de-datos-na-nube)
+        - [Despregando o backend](#despregando-o-backend)
+        - [Frontend](#frontend)
+        - [Parametros para CORS](#parametros-para-cors)
+
+<!-- /TOC -->
 
 
 ## Backend
@@ -28,6 +34,26 @@ const db = new Sequelize(
 ```js
 const JWT_SECRET = process.env.JWT_SECRET
 ```
+
+### CORS
+Os navegadores seguen unha política de restricción para que só o JavaScript que procede dunha dirección poda facer peticións (fetch) a esa dirección (_same-origin policy_). Dese xeito impídese que scripts de terceiros podan acceder á información do noso backend empregando as credenciais dos usuarios. Os scripts que poderían intentar estos accesos incluen anuncios de pasarelas, bibliotecas de JavaScript instadas desde CDN como Bootstrap ou Leaflet, pasarelas de pago, etc.
+
+No noso caso este comportamento do navegador supón un problema, porque a dirección de Internet do noso frontend, de donde proceden os scripts de JavaScript, non é a mesma que a dirección do backend, de xeito que o navegador non permitirá ós nosos scripts do frontend facer consultas no backend. Para solucionar esto dispoñemos de CORS, que é un mecanismo que permite que o noso backend indique ó navegador desde qué orixes permitimos facer consultas ó noso backend.
+
+Como nas adaptacións anteriores para o desplegue, necesitaremos definir dous escenarios para a nosa aplicación. En __desenrolo__ permitiremos o acceso para calquera tipo de petición desde calquera orixe. En __producción__ só permitiremos acceso ós scripts que proceden do dominio do noso frontend e, opcionalmente, só para os métodos HTTP que sexa necesario.
+
+```js
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN ?? "*",
+        methods: process.env.CORS_METHODS ?? "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
+    })
+)
+```
+
+Lembra que estamos empregando un middleware, así que ainda que no exemplo se aplica a mesma configuración de CORS para todos os endpoints, podemos alternativamente establecer políticas individuais para cada endpoint.
 
 ## Frontend
 * Proporciona as URL para o backend tanto para os entornos de desenrolo como de producción. Podes determinar se a aplicación se atopa en desenrolo ou en producción consultando `window.location.hostname`. En desenrolo adoita ser `localhost` ou `127.0.0.1`
@@ -71,7 +97,7 @@ Selecciona a franxa de pago que prefiras (por omisión está marcada a gratuita)
 
 Asegúrate de comprobar que todo funciona axeitadamente. Podes empregar aplicacións como [Insomnia](https://insomnia.rest/) para elo.
 
-### Frontend
+### Despregando o frontend
 
 Unha vez que xa coñezas en qué enderezo de Internet está funcionando o backend, podes aplicar as adaptacións necesarias no frontend, tal e como vimos nos apartados anteriores.
 
@@ -91,28 +117,10 @@ Para que estas aplicaciones funcionen bien, hemos de configurar el servicio de l
 
 ![Configuración da redirección das rutas do frontend](./resources/redirection.png)
 
-Asegúrate de comprobar que todo funciona axeitadamente accedendo co navegador á URL proporcionada para o frontend.
+### Parametros para CORS
 
-### CORS
-
-Os navegadores seguen unha política de restricción para que só o JavaScript que procede dunha dirección poda facer peticións (fetch) a esa dirección (_same-origin policy_). Dese xeito impídese que scripts de terceiros podan acceder á información do noso backend empregando as credenciais dos usuarios. Os scripts que poderían intentar estos accesos incluen anuncios de pasarelas, bibliotecas de JavaScript instadas desde CDN como Bootstrap ou Leaflet, pasarelas de pago, etc.
-
-No noso caso este comportamento do navegador supón un problema, porque a dirección de Internet do noso frontend, de donde proceden os scripts de JavaScript, non é a mesma que a dirección do backend, de xeito que o navegador non permitirá ós nosos scripts do frontend facer consultas no backend. Para solucionar esto dispoñemos de CORS, que é un mecanismo que permite que o noso backend indique ó navegador desde qué orixes permitimos facer consultas ó noso backend.
-
-Como nas adaptacións anteriores para o desplegue, necesitaremos definir dous escenarios para a nosa aplicación. En __desenrolo__ permitiremos o acceso para calquera tipo de petición desde calquera orixe. En __producción__ só permitiremos acceso ós scripts que proceden do dominio do noso frontend e, opcionalmente, só para os métodos HTTP que sexa necesario.
-
-```js
-app.use(
-    cors({
-        origin: process.env.CORS_ORIGIN ?? "*",
-        methods: process.env.CORS_METHODS ?? "GET,HEAD,PUT,PATCH,POST,DELETE",
-        preflightContinue: false,
-        optionsSuccessStatus: 204
-    })
-)
-```
+Unha vez que coñecemos o enderezo do noso frontend en Internet, temos que regresar ó noso __web service__ do backend para configurar as variables de entorno precisas:
 ![Variables de entorno para CORS](./resources/CORS.png)
+__☝️ Presta atención á ausencia de barra despois da URL ☝️__
 
-__Presta atención ó asterisco despois da URL ☝️__
-
-Lembra que estamos empregando un middleware, así que ainda que no exemplo se aplica a mesma configuración de CORS para todos os endpoints, podemos alternativamente establecer políticas individuais para cada endpoint.
+Asegúrate de comprobar que todo funciona axeitadamente accedendo co navegador á URL proporcionada para o frontend.
