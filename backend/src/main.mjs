@@ -5,7 +5,7 @@ import { Dato } from "./db.mjs"
 const app = express()
 
 const CORS_OPTIONS = {
-    "origin": "https://frontend-lnw1.onrender.com/",
+    "origin": "https://frontend-lnw1.onrender.com/*",
     "methods": "GET,POST",
     "preflightContinue": false,
     "optionsSuccessStatus": 204
