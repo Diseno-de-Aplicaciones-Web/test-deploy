@@ -9,7 +9,7 @@
     - [Despregando en Render](#despregando-en-render)
         - [Creando a nosa base de datos na nube.](#creando-a-nosa-base-de-datos-na-nube)
         - [Despregando o backend](#despregando-o-backend)
-        - [Frontend](#frontend)
+        - [Despregando o frontend](#despregando-o-frontend)
         - [Parametros para CORS](#parametros-para-cors)
 
 <!-- /TOC -->
