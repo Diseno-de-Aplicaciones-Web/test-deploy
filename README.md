@@ -56,18 +56,28 @@ app.use(
 Lembra que estamos empregando un middleware, así que ainda que no exemplo se aplica a mesma configuración de CORS para todos os endpoints, podemos alternativamente establecer políticas individuais para cada endpoint.
 
 ## Frontend
-* Proporciona as URL para o backend tanto para os entornos de desenrolo como de producción. Podes determinar se a aplicación se atopa en desenrolo ou en producción consultando `window.location.hostname`. En desenrolo adoita ser `localhost` ou `127.0.0.1`
+Proporciona as URL para o backend tanto para os entornos de desenrolo como de producción. Podes determinar se a aplicación se atopa en desenrolo ou en producción consultando `window.location.hostname`. En desenrolo adoita ser `localhost` ou `127.0.0.1`.
+
+Crea un arquivo con un nome como `config.js` ou similar e fai algo como o seguinte nel:
 ```js
 const BACKEND_URL = ["localhost", "127.0.0.1"].includes(window.location.hostname)
     ? "http://localhost:8000"
     : "https://direccion.dobackend.eninternet.com"
+
+export {
+    BACKEND_URL
+}
 ```
-Logo disto, modifica as chamadas a `fetch` ou calquera outra chamada á API do teu backend do seguinte xeito. Onde tiñas algo como:
+Logo disto, modifica as chamadas a `fetch` ou calquera outra chamada á API do teu backend do seguinte xeito.
+
+Onde tiñas algo como:
 ```js
 fetch("http://localhost:8000/api/artigos")
 ```
 Modifícao dun xeito semellante a este:
 ```js
+import { BACKEND_URL } from "./config.js"
+
 fetch(BACKEND_URL+"/api/artigos")
 ```
 
