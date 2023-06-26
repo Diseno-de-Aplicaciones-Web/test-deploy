@@ -1,16 +1,18 @@
 # Adaptaciones no código para despregar en producción
+ 
+COUSAS
 
 <!-- TOC -->
 
-- [Adaptaciones no código para despregar en producción](#adaptaciones-no-c%C3%B3digo-para-despregar-en-producci%C3%B3n)
-    - [Backend](#backend)
-        - [CORS](#cors)
-    - [Frontend](#frontend)
-    - [Despregando en Render](#despregando-en-render)
-        - [Creando a nosa base de datos na nube.](#creando-a-nosa-base-de-datos-na-nube)
-        - [Despregando o backend](#despregando-o-backend)
-        - [Despregando o frontend](#despregando-o-frontend)
-        - [Parametros para CORS](#parametros-para-cors)
+- [Adaptaciones no código para despregar en producción](#adaptaciones-no-código-para-despregar-en-producción)
+  - [Backend](#backend)
+    - [CORS](#cors)
+  - [Frontend](#frontend)
+  - [Despregando en Render](#despregando-en-render)
+    - [Creando a nosa base de datos na nube.](#creando-a-nosa-base-de-datos-na-nube)
+    - [Despregando o backend](#despregando-o-backend)
+    - [Despregando o frontend](#despregando-o-frontend)
+    - [Parametros para CORS](#parametros-para-cors)
 
 <!-- /TOC -->
 
